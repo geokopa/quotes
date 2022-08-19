@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Quotes.Application.Quotes.Commands.Create;
+using Quotes.Application.Quotes.Commands.Delete;
+using Quotes.Application.Quotes.Commands.Update;
+using Quotes.Application.Quotes.Queries.GetList;
+using Quotes.Application.Quotes.Queries.GetRandom;
+using Quotes.Domain.Models;
 
 namespace Quotes.API.Controllers
 {
@@ -8,36 +13,46 @@ namespace Quotes.API.Controllers
 	[ApiController]
 	public class QuotesController : ControllerBase
 	{
-		// GET: api/<QuotesController>
+		private readonly IMediator _mediator;
+
+		public QuotesController(IMediator mediator)
+		{
+			_mediator = mediator;
+		}
+
 		[HttpGet]
-		public IEnumerable<string> Get()
+		public async Task<IActionResult> Get()
 		{
-			return new string[] { "value1", "value2" };
+			return Ok(await _mediator.Send(new GetQuotesListQuery()));
 		}
 
-		// GET api/<QuotesController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
+		[HttpGet("Random")]
+		public async Task<IActionResult> Random()
 		{
-			return "value";
+			var quote = await _mediator.Send(new GetRandomQuoteQuery());
+
+			if (quote == null)
+				return NotFound();
+
+			return Ok(quote);
 		}
 
-		// POST api/<QuotesController>
 		[HttpPost]
-		public void Post([FromBody] string value)
+		public async Task<IActionResult> Post([FromBody] QuoteItemModel quote)
 		{
+			return Ok(await _mediator.Send(new CreateQuoteCommand(quote.QuoteText, quote.Author)));
 		}
 
-		// PUT api/<QuotesController>/5
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
+		public async Task<IActionResult> Put(int id, [FromBody] QuoteItemModel quote)
 		{
+			return Ok(await _mediator.Send(new UpdateQuoteCommand(id, quote.QuoteText, quote.Author)));
 		}
 
-		// DELETE api/<QuotesController>/5
 		[HttpDelete("{id}")]
-		public void Delete(int id)
+		public async Task<IActionResult> Delete(int id)
 		{
+			return Ok(await _mediator.Send(new DeleteQuoteCommand(id)));
 		}
 	}
 }

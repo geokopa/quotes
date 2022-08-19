@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Quotes\Commands\Create\" />
-    <Folder Include="Quotes\Commands\Delete\" />
-    <Folder Include="Quotes\Commands\Update\" />
-    <Folder Include="Quotes\Queries\GetList\" />
-    <Folder Include="Quotes\Queries\GetRandom\" />
     <Folder Include="Quotes\Queries\GetByAuthor\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Quotes.Domain\Quotes.Domain.csproj" />
+    <ProjectReference Include="..\Quotes.Infrastructure\Quotes.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
