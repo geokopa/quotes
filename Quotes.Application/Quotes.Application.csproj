@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Quotes\Commands\Create\" />
+    <Folder Include="Quotes\Commands\Delete\" />
+    <Folder Include="Quotes\Commands\Update\" />
+    <Folder Include="Quotes\Queries\GetList\" />
+    <Folder Include="Quotes\Queries\GetRandom\" />
+    <Folder Include="Quotes\Queries\GetByAuthor\" />
+  </ItemGroup>
+
+</Project>
